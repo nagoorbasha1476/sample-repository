@@ -5,7 +5,7 @@ on:
 
 Jobs:
  Job1:
- name: My first automated Job
+ name: My first Job
    runs-on: ubuntu-latest
    steps:
       - name: Used to run this jon on the ubuntu runner.
