@@ -1,29 +1,19 @@
-name: Build and push Docker image to S3 bucket
-
-on:
-  push:
-    branches:
-      - main
-
-env:
-  AWS_REGION: us-east-1
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  DOCKER_REGISTRY: your-s3-bucket-name-here
-
 jobs:
-  build-and-push:
+  my-job:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Login to Amazon ECR
-      id: login
+    - name: Build and push Docker image
+      env:
+        DOCKER_REGISTRY: mydockerregistry.com
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
-        echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} | docker login --username AWS --password-stdin ${DOCKER_REGISTRY}
-    - name: Build the Docker image
-      run: |
-        docker build -t ${DOCKER_REGISTRY}/myimage:${{ github.sha }} .
-    - name: Push the Docker image to S3
-      run: |
-        docker push ${DOCKER_REGISTRY}/myimage:${{ github.sha }}
+        # Build Docker image
+        docker build -t myimage:latest .
+
+        # Login to Docker registry
+        docker login $DOCKER_REGISTRY -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+        # Push Docker image
+        docker tag myimage:latest $DOCKER_REGISTRY/myimage:latest
+        docker push $DOCKER_REGISTRY/myimage:latest
