@@ -1,0 +1,25 @@
+name: My Simple Workflow
+on: 
+ push:
+  branches: main
+
+Jobs:
+ Job1:
+ name: My first automated Job
+   runs-on: ubuntu-latest
+   steps:
+      - name: Used to run this jon on the ubuntu runner.
+      - uses: actions/checkout@v3
+      - run: echo I automated it. 
+
+ Job2:
+ name: My second automated Job   
+  runs-on:  windows-latest
+  steps:
+    - uses: actions/checkout@v3
+    - name: Installing node 14 
+    - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
