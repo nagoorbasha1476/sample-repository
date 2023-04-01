@@ -12,7 +12,6 @@ env:
   S3_BUCKET_NAME: my-github-actions-bucket
 
 jobs:
-  push-to-registry-ecr-and-s3:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
