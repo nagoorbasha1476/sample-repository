@@ -33,18 +33,6 @@ jobs:
       - name: Push Docker image to registry
         run: docker push $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:$GITHUB_SHA
       
-      - name: Login to ECR
-        id: ecr-login
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          registry: ${{ env.ECR_REGISTRY }}
-          region: ${{ env.AWS_REGION }}
-      
-      - name: Tag Docker image for ECR
-        run: docker tag $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:$GITHUB_SHA $ECR_REGISTRY/$DOCKER_IMAGE_NAME:$GITHUB_SHA
-      
-      - name: Push Docker image to ECR
-        run: docker push $ECR_REGISTRY/$DOCKER_IMAGE_NAME:$GITHUB_SHA
       
       - name: Install AWS CLI
         run: |
