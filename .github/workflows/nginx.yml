@@ -22,5 +22,5 @@ jobs:
           push: true
           tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
     env:
-      DOCKER_REGISTRY: https://login.docker.com/u/login/
+      DOCKER_REGISTRY: https://hub.docker.com 
       DOCKER_IMAGE_NAME: nginx
