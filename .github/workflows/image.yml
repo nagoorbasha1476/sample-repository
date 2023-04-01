@@ -8,9 +8,9 @@ on:
 env:
   DOCKER_REGISTRY: myregistry.com
   DOCKER_IMAGE_NAME: myimage
-  ECR_REGISTRY: my-ecr-registry-id.dkr.ecr.us-west-2.amazonaws.com
-  AWS_REGION: us-west-2
-  S3_BUCKET_NAME: mybucket
+  ECR_REGISTRY: https://us-east-1.console.aws.amazon.com/ecr/repositories?region=us-east-1
+  AWS_REGION: us-east-1
+  S3_BUCKET_NAME: my-github-actions-bucket
 
 jobs:
   push-to-registry-ecr-and-s3:
