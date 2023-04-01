@@ -8,7 +8,6 @@ on:
 env:
   DOCKER_REGISTRY: https://hub.docker.com/
   DOCKER_IMAGE_NAME: nginx
-  ECR_REGISTRY: https://us-east-1.console.aws.amazon.com/ecr/repositories?region=us-east-1
   AWS_REGION: us-east-1
   S3_BUCKET_NAME: my-github-actions-bucket
 
