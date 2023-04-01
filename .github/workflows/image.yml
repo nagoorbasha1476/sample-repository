@@ -1,0 +1,61 @@
+name: Push Docker image and tags to registry, ECR, and S3
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DOCKER_REGISTRY: myregistry.com
+  DOCKER_IMAGE_NAME: myimage
+  ECR_REGISTRY: my-ecr-registry-id.dkr.ecr.us-west-2.amazonaws.com
+  AWS_REGION: us-west-2
+  S3_BUCKET_NAME: mybucket
+
+jobs:
+  push-to-registry-ecr-and-s3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Login to Docker registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Build Docker image
+        run: docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:$GITHUB_SHA .
+      
+      - name: Push Docker image to registry
+        run: docker push $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:$GITHUB_SHA
+      
+      - name: Login to ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry: ${{ env.ECR_REGISTRY }}
+          region: ${{ env.AWS_REGION }}
+      
+      - name: Tag Docker image for ECR
+        run: docker tag $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:$GITHUB_SHA $ECR_REGISTRY/$DOCKER_IMAGE_NAME:$GITHUB_SHA
+      
+      - name: Push Docker image to ECR
+        run: docker push $ECR_REGISTRY/$DOCKER_IMAGE_NAME:$GITHUB_SHA
+      
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install awscli
+      
+      - name: Create tag file
+        run: echo $GITHUB_SHA > tag.txt
+      
+      - name: Upload tag file to S3
+        run: aws s3 cp tag.txt s3://$S3_BUCKET_NAME/$DOCKER_IMAGE_NAME/$GITHUB_SHA/tag.txt
+      
+      - name: Delete tag file
+        run: rm tag.txt
