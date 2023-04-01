@@ -1,4 +1,4 @@
-name: Push Docker image and tags to registry, ECR, and S3
+name: Push Docker image and tags to registy, ECR, and S3
 
 on:
   push:
