@@ -28,7 +28,7 @@ jobs:
       
     - name: Build and tag Docker image
       run: |
-        docker build -t $DOCKER_USERNAME/nginx:latest -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/nginx:latest .
+        docker build -t $DOCKER_USERNAME/nginx:latest -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/nginx:latest
       
     - name: Push Docker image to Docker Hub
       run: docker push $DOCKER_USERNAME/nginx:latest
