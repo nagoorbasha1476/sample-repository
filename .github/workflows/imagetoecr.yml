@@ -33,7 +33,7 @@ jobs:
     - name: push the image to docker
       run: docker push nagoorbasha1476/nginx:latest  
     
-    - name: fdfv
+    - name: push to ecr
       run: aws ecr get-login-password --region $AWS_REGION | docker login nagoorbasha1476 AWS --password-stdin $ECR_REGISTRY
 
     - name: Push Docker image to Amazon ECR
