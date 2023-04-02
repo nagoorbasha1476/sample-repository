@@ -24,16 +24,13 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
     - name: Pull Nginx image
-      run: docker pull nginx
-      
-    - name: build the image
-      run: docker build -t dockertoecrrepo/nginx:latest  
+      run: docker pull nginx 
       
     - name: Tag Nginx image
-      run: docker tag nginx dockertoecrrepo/nginx:latest
+      run: docker tag nginx:latest nagoorbasha1476/nginx:latest
       
     - name: push the image to docker
-      run: docker push nagoorbasha1476/dockertoecrrepo/nginx:latest  
+      run: docker push nagoorbasha1476/nginx:latest  
       
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
