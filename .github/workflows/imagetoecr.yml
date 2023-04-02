@@ -27,7 +27,7 @@ jobs:
       run: docker pull nginx
       
     - name: build the image
-      run: docker build -t dockertoecrrepo/nginx:latest . 
+      run: docker build -t dockertoecrrepo/nginx:latest  
       
     - name: Tag Nginx image
       run: docker tag nginx dockertoecrrepo/nginx:latest
