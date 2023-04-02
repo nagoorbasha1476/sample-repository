@@ -26,6 +26,12 @@ jobs:
     - name: Pull Nginx image
       run: docker pull nginx
       
+    - name: Tag Nginx image
+        run: |
+          docker tag nginx dockertoecrrepo/nginx:latest
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login dockertoecrrepo -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker push dockertoecrrepo/nginx:latest  
+      
     - name: Push Docker image to Docker Hub
       run: docker push $DOCKER_USERNAME/nginx:latest
       
