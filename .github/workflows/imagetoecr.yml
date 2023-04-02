@@ -30,7 +30,7 @@ jobs:
       run: docker tag nginx dockertoecrrepo/nginx:latest
       
     - name: push the image to docker
-      run: docker push dockertoecrrepo/nginx:latest  
+      run: docker push nagoorbasha1476/dockertoecrrepo/nginx:latest  
       
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
