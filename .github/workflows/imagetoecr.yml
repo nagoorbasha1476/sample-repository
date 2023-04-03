@@ -37,5 +37,5 @@ jobs:
       run: aws ecr get-login-password --region $AWS_REGION | docker login nagoorbasha1476 AWS --password-stdin $ECR_REGISTRY
 
     - name: Push Docker image to Amazon ECR
-      run: docker push $ECR_REGISTRY/nginx:$GITHUB_SHA
+      run: docker push $ECR_REGISTRY/myimage/nginx:$GITHUB_SHA
   
