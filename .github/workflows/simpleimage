@@ -37,11 +37,6 @@ jobs:
       - name: Tag Docker Image
         run: docker tag nagoorbasha1476/nginx:latest nagoorbasha1476/nginx:aws
 
-      - name: Push Docker Image to AWS ECR
-        run: |
-          $(aws ecr get-login --no-include-email --region us-east-1)
-          docker push nagoorbasha1476/nginx:aws
-
       - name: Upload to S3
         uses: jakejarvis/s3-sync-action@master
         with:
