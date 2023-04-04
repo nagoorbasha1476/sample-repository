@@ -1,0 +1,52 @@
+name: DockerHub to S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Pull Docker Image
+        run: docker nagoorbasha1476/nginx:latest
+
+      - name: Login to AWS S3
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+
+      - name: Tag Docker Image
+        run: docker tag nagoorbasha1476/nginx:latest nagoorbasha1476/nginx:aws
+
+      - name: Push Docker Image to AWS ECR
+        run: |
+          $(aws ecr get-login --no-include-email --region us-east-1)
+          docker push nagoorbasha1476/nginx:aws
+
+      - name: Upload to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --delete
+        env:
+          AWS_S3_BUCKET: my-github-actions-bucket
+          AWS_REGION: us-east-1
+          SOURCE_DIR: '/'
