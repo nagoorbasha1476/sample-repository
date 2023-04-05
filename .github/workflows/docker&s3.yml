@@ -34,7 +34,7 @@ jobs:
         run: docker push $DOCKERHUB_USERNAME/nginx:latest
 
       - name: Install and Configure AWS CLI
-        uses: aws-actions/configure-aws-cli@v1
+        uses: aws-actions/configure-aws-cli@v1.1.0
         with:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
